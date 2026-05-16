@@ -1,0 +1,588 @@
+:root {
+  --color-primary: #00853e;
+  --color-secondary: #c1cd22;
+  --color-bg: #FFFFFF;
+  --color-text: #0d0829;
+  --color-accent: #004a8d;
+  --color-alpha: #fff200;
+  --typography-H-font-family: "Officina Display";
+  --typography-Body-font-family: "Tahoma";
+}
+@font-face {
+  font-family: 'Officina Display'; /* O nome que você vai dar à fonte */
+  src: url('../webfonts/officina-display-itc-std.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap; /* Melhora o carregamento, mostrando uma fonte padrão enquanto a sua não baixa */
+}
+@font-face {
+  font-family: 'Officina Display'; /* O nome que você vai dar à fonte */
+  src: url('../webfonts/officina-san-itc-black.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap; /* Melhora o carregamento, mostrando uma fonte padrão enquanto a sua não baixa */
+}
+@font-face {
+  font-family: 'Officina Display'; /* O nome que você vai dar à fonte */
+  src: url('../webfonts/officina-display-itc-std-light.otf') format('opentype');
+  font-weight:lighter;
+  font-style: normal;
+  font-display: swap; /* Melhora o carregamento, mostrando uma fonte padrão enquanto a sua não baixa */
+}
+
+
+body {
+  font-family: var(--typography-Body-font-family), sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  font-size: calc(1rem + .2vw);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  overflow-y: auto;
+}
+
+html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-primary) transparent;
+}
+
+/* Para Chrome, Edge e Safari: Seletores Globais (sem prefixo de tag) */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--color-primary);
+    border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-accent);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--typography-H-font-family), Sans-serif;
+  font-style: normal !important;
+}
+a {
+  color: var(--color-accent) !important;
+}
+.btn {
+  transition: all .3s !important;
+}
+.btn, .btn-lg {
+  border: 2px solid transparent !important;
+}
+.btn-primary {
+  background-color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+  color: #FFF !important;
+}
+.btn-primary:hover, .btn-primary:focus {
+  background-color: var(--color-accent) !important;
+  border-color: var(--color-accent) !important;
+  color: #FFF !important;
+  box-shadow: 0 0 10px 0 var(--color-primary) !important;
+}
+.btn-outline-primary {
+  border-color: var(--color-primary) !important;
+  color: var(--color-accent) !important;
+}
+.btn-outline-primary:hover, .btn-outline-primary:focus {
+  color: black !important;
+  background-color: var(--color-primary) !important;
+  box-shadow: 0 0 10px 0 var(--color-accent) !important;
+}
+.btn-primary-outline {
+  background-color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+  color: var(--color-accent) !important;
+}
+.btn-primary-outline:hover, .btn-primary-outline:focus {
+  background-color: transparent !important;
+  color: var(--color-primary) !important;
+  box-shadow: 0 0 10px 0 var(--color-primary) !important;
+}
+
+.container {
+  max-width: 80% !important;
+}
+
+.navbar {
+  background-color: var(--color-primary) !important;
+
+  & li {
+    margin-right: 1rem !important;
+  }
+  & li a {
+    color:black !important;
+  }
+  & li:hover {
+    animation: destaque .4s linear forwards;
+  }
+  & li:hover a {
+    color: var(--color-accent) !important;
+  }
+  & .navbar-brand {
+    margin-right: 0 !important;
+    max-width: 8rem;
+    display: block;
+    color: #FFFFFF !important;
+    font-family: var(--typography-H-font-family), Sans-serif;
+    text-align: left !important;
+    font-size: 1.8rem;
+  }
+  & .navbar-brand img {
+    max-height: 3rem;
+  }
+  & #navbarSupportedContent {
+    margin-right: 8.5rem;
+  }
+}
+@keyframes destaque {
+  from {
+    transform:none;
+  }
+  to {
+    transform: translateY(-8px);
+  }
+}
+
+
+/*
+  Menu  Área logada
+*/
+meter {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 100%;
+  /* For Firefox */
+  background: #EEE;
+  box-shadow: 0 2px 3px rgba(0,0,0,0.2) inset;
+  border-radius: 3px;
+}
+meter::-webkit-meter-bar {
+  background: #EEE;
+  box-shadow: 0 2px 3px rgba(0,0,0,0.2) inset;
+  border-radius: 3px;
+}
+meter::-webkit-meter-optimum-value,
+meter::-webkit-meter-suboptimum-value,
+meter::-webkit-meter-even-less-good-value {
+  border-radius: 3px;
+}
+
+meter::-webkit-meter-optimum-value {
+  background: #86CC00;
+}
+
+meter::-webkit-meter-suboptimum-value {
+  background: #FFDB1A;
+}
+
+meter::-webkit-meter-even-less-good-value  {
+  background: #CC4600;
+}
+meter::-moz-meter-bar {
+  border-radius: 3px;
+}
+meter:-moz-meter-optimum::-moz-meter-bar {
+  background: #86CC00;
+}
+meter:-moz-meter-sub-optimum::-moz-meter-bar {
+  background: #FFDB1A;
+}
+meter:-moz-meter-sub-sub-optimum::-moz-meter-bar {
+  background: #CC4600;
+}
+
+#menu {
+  height: 100vh;
+  border-right: 2px solid var(--color-primary) !important;
+  padding: 0 16px;
+  scrollbar-width: none;
+  user-select: none;
+  padding-top: 20px;
+
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: hidden;
+
+  & ul {
+    flex-direction: column;
+  }
+
+  & .nav-link {
+    padding: 15px 0 15px 30px !important;
+    margin: 5px 0;
+    border-radius: 10px;
+  }
+  & .nav-link:hover {
+    background-color: lightgray !important;
+  }
+  & .nav-link.active {    
+    background-color: var(--color-secondary) !important;
+    color: var(--color-accent) !important;
+  }
+}
+
+#miolo_aprender{
+    display: block;
+    height: auto; 
+    overflow: visible;
+    padding: 0 50px;
+
+  & #protecao {
+    top: 0;
+    z-index: 20;
+    width: 100%;
+    position: sticky;
+    background-color: var(--color-bg);
+    height: 20px;
+    position: sticky;
+  }
+  & #cabecalho {
+    padding: 15px 0 15px 30px !important;
+    border-radius: 10px;
+    background-color: var(--color-secondary) !important;
+    top: 20px;
+    z-index: 20;
+    width: 100%;
+    position: sticky;
+  }
+  & #cabecalho p {
+    margin-bottom: 0 !important;
+  }
+  & #cabecalho p:first-of-type {
+    color: gray !important;
+  }
+  & #cabecalho p:first-of-type * {
+    color: gray !important;
+  }
+
+  & .trilha {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    padding: 0 16px;
+    display: flex;
+    width: 100%;
+    /*
+    overflow-x: hidden;
+    */
+    position: relative;
+    z-index: 5;
+  }
+  & .trilha section .point:nth-child(2) {
+    margin-top: 80px !important;
+  }
+  & .trilha .point {
+    position: relative;
+    width: 80px;
+    height: 80px; 
+    margin: 20px 0;
+    transition: left 0.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+  }
+  & .trilha .separador {
+    left: 0px;
+    position: absolute;
+    width: 100%;
+    align-items: center;
+    display: flex;
+    margin-bottom: 8px;
+    margin-top: 8px;
+    background-color: var(--color-bg);
+    padding: 10px 0;
+  }
+  & .trilha .separador hr {
+    flex-grow: 1;
+  }
+  & .trilha .separador h2 {
+    text-align: center;
+    margin: 0 16px;
+  }
+  & .trilha-path {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Permite clicar nas divs por trás do SVG */
+    z-index: 0; /* Fica abaixo das divs */
+  }
+}
+
+#miolo_unidades {
+    display: block;
+    height: auto; 
+    overflow: visible;
+    padding: 0 50px;
+
+    & #protecao {
+      top: 0;
+      z-index: 20;
+      width: 100%;
+      position: sticky;
+      background-color: var(--color-bg);
+      height: 20px;
+      position: sticky;
+    }
+    & #cabecalho {
+      padding: 15px 0 15px 30px !important;
+      border-radius: 10px;
+      background-color: var(--color-secondary) !important;
+      top: 20px;
+      z-index: 20;
+      width: 100%;
+      position: sticky;
+    }
+    & #cabecalho h4 {
+      margin-bottom: 0 !important;
+    }
+    & #cabecalho a {
+      text-decoration: none !important;
+    }
+    & .unidade {
+      border-radius: 20px;
+      border: lightgray 2px solid;
+      margin: 20px 0;
+      padding: 20px;
+    }
+    & .unidade .progress {
+      overflow: visible !important;
+    }
+    & .unidade .progress i {
+      margin-left: auto;
+      font-size: 30px;
+      margin-top: -10px;
+      filter: drop-shadow(0 0 10px var(--color-alpha));
+      transition: filter 0.3s ease;
+    }
+}
+
+.btn-round-press {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%; /* Garante que seja redondo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    box-shadow: 0 4px #999; /* Sombra que cria a "base" do botão */
+    transition: all 0.1s; /* Transição rápida para o efeito de clique */
+}
+
+/* Efeito ao passar o mouse (Hover) */
+.btn-round-press:hover {
+    box-shadow: 0 4px #666;
+}
+
+/* O efeito de "Pressionar" */
+.btn-round-press:active {
+    background-color: #0d6efd; /* Cor do Bootstrap Primary */
+    box-shadow: 0 2px #666;    /* Diminui a sombra */
+    transform: translateY(2px); /* Move o botão para baixo */
+}
+
+/* Remove o contorno de foco chato do navegador */
+.btn-round-press:focus {
+    outline: none;
+    box-shadow: 0 4px #999;
+}
+.btn-round-press i {
+    font-size: 2rem;
+    color: white;
+}
+
+#stats {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: hidden;
+  padding-top: 20px;
+
+  & #divisao {
+    border-radius: 20px;
+    border: lightgray 2px solid;
+    margin: 20px 0;
+    padding: 20px;
+  }
+
+  & #missoes {
+    border-radius: 20px;
+    border: lightgray 2px solid;
+    margin: 20px 0;
+    padding: 20px;
+
+    & .row {
+      margin: 10px 0;
+    }
+    & .progress {
+      height: 1.3rem !important;
+      border-radius: 6rem !important ;
+    }
+  }
+
+  & .col-4 {
+    text-align: center;
+  }
+  & i {
+      font-size: 3rem;
+      margin-top: 5px;
+  }
+  
+}
+
+#miolo_perfil{
+    display: block;
+    height: auto; 
+    overflow: visible;
+    padding: 0 50px;
+
+    & h3 {
+      margin-top: 20px;
+      margin-bottom: 30px;
+    }
+    & input {
+      border-radius: 10px;
+    }
+    & #pws_nova,
+    & #pws_confirma {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    & button {
+      border-radius: 10px;
+    }
+
+}
+#detalhes {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: hidden;
+  padding-top: 20px;
+
+  & h4 {
+    padding-left: 30px;
+  }
+  & div:first-of-type {
+    border-radius: 20px;
+    border: lightgray 2px solid;
+    margin: 20px 0;
+    padding: 20px;
+  }
+  & div a {
+    display: block;
+    padding: 8px 30px;
+    text-decoration: none;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  & a:hover {
+    background-color: lightgray !important;
+  }
+  & a.active {    
+    background-color: var(--color-secondary) !important;
+    color: var(--color-accent) !important;
+  }
+}
+
+#miolo_cursos{
+    display: block;
+    height: auto; 
+    overflow: visible;
+    padding: 0 50px;
+
+    & h3 {
+      margin-top: 20px;
+      margin-bottom: 30px;
+      padding-left: 1.5rem;
+    }
+    & .curso {
+      padding: 1.5rem;
+    }
+    & .curso .card {
+      border-radius: 20px;
+    }
+    & .curso .card .card-img-top {
+      border-radius: 20px 20px 0 0;
+    }
+}
+
+.ordenavel {
+  & ul {
+    list-style-type: none;
+    margin: 0; 
+    padding: 0;
+  }
+  & ul li {
+    margin: 0 3px 3px 3px; 
+    padding: 0.4em; 
+    border: solid 1px lightgray;
+  }
+  & #card_ordenar li {
+    cursor:n-resize;
+  }
+}
+
+@media (max-width: 600px) {
+  #miolo_aprender{
+    padding: 0 20px;
+  }
+  #miolo_cursos {
+    padding-bottom: 80px;
+  }
+  #menu {
+    height: auto;
+    position: fixed;
+    top: unset;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 50;
+    border-top: 1px solid #ddd;
+    background-color: #FFF;
+    padding: 10px;
+  }
+  #menu h1 {
+    display: none;
+  }
+  #menu ul {
+    flex-direction: unset;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  #menu li.nav-item {
+    width: 20%;
+    text-align: center;
+    flex: 1 0 0%;
+  }
+  #menu li.nav-item a {
+    padding: .5rem 1rem !important;
+  }
+  #menu li.nav-item a span {
+    display: none;
+  }
+  #stats {
+    height: auto;
+  }
+  #detalhes {
+    position: unset;
+    height: auto;
+  }
+  #miolo_perfil {
+    padding-bottom: 80px;
+  }
+}
