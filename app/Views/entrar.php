@@ -6,10 +6,12 @@
             <div class="row justify-content-md-center">
 
                 <div class="col-12 col-md-6 mx-auto bg-white rounded-3 p-5">
-                    <h1 class="h3 text-center mt-5">Entrar</h1>
                     <?php if (session()->getFlashdata('msg')) : ?>
                         <div class="alert alert-danger"><?= session()->getFlashdata('msg') ?></div>
                     <?php endif; ?>
+
+                    <?php if (env('CI_ENVIRONMENT') == 'development') : ?>
+                    <h1 class="h3 text-center mt-5">Entrar</h1>
                     <form action="<?= base_url('entrar/auth') ?>" method="post" id="formLogin">
                         <div class="mb-3">
                             <label for="InputForEmail" class="form-label">E-mail:</label>
@@ -28,6 +30,7 @@
                         <a class="btn btn-outline-warning mb-2" onclick="esqueciSenha()">Esqueci a senha</a>
                     </form>
                     <hr />
+                    <?php endif; ?>
                     <a href="<?=base_url('entrar/google')?>" class="btn btn-primary btn-lg mt-3"><i class="fab fa-google"></i> Entrar com Google</a>
                 </div>
 

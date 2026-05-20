@@ -74,7 +74,7 @@ class aprender extends BaseController
       ];
       $save = $this->cursosCursanteModel->save($dt);
 
-      $data['unidades'] = $this->unidadesModel->where('id_curso', $this->session->get('id_curso'))->orderby('numero')->findAll();
+      $data['unidades'] = $this->unidadesModel->where('id_curso', $this->session->get('id_curso'))->where('st', 1)->orderby('numero')->findAll();
       $query = $this->db->query('SELECT
                                     cl.id,
                                     cl.id_cursos_licoes_tipo,
@@ -90,6 +90,7 @@ class aprender extends BaseController
                                     cl.id_cursos_licoes_tipo = clt.id
                                     AND cl.id_cursos_unidades = cu.id
                                     AND cu.id_curso = '.$this->session->get('id_curso').'
+                                    AND cl.st = 1
                                   ORDER BY
                                     cu.numero ASC,
                                     cl.ordem ASC')
@@ -211,7 +212,7 @@ class aprender extends BaseController
           ';        
         }
       } elseif($item->id_cursos_licoes_tipo == 4){
-        $card = $this->licoesTipo3Model->where('id_cursos_licoes', $item->id)->first();
+        $card = $this->licoesTipo4Model->where('id_cursos_licoes', $item->id)->first();
         $html = $card->video.'<div class="w-100"></div>';
         if(is_object($respondida)){
           $html .= '
@@ -223,7 +224,7 @@ class aprender extends BaseController
           ';        
         }
       } elseif($item->id_cursos_licoes_tipo == 5){
-        $card = $this->licoesTipo4Model->where('id_cursos_licoes', $item->id)->first();
+        $card = $this->licoesTipo5Model->where('id_cursos_licoes', $item->id)->first();
         if(is_object($respondida)){
           $resp = $respondida->resposta;
           $dis = 1;
