@@ -11,5 +11,5 @@ class unidadesModel extends Model
   protected $primaryKey = 'id';
   protected $returnType = 'object';
 
-  protected $allowedFields = ['id','id_curso','unidade','numero','descricao'];
+  protected $allowedFields = ['id','id_curso','unidade','numero','descricao','st'];
 }
