@@ -52,7 +52,7 @@ class Unidades extends BaseController
                               ->select('cursos_licoes.id, cursos_licoes.titulo, cursos_licoes.ordem, cursos_licoes_tipos.tipo')
                               ->join('cursos_licoes_tipos', 'id_cursos_licoes_tipo = cursos_licoes_tipos.id')
                               ->where('id_cursos_unidades', $id)
-                              ->orderBy('cursos_licoes.ordem', 'desc')
+                              ->orderBy('cursos_licoes.ordem', 'ASC')
                               ->findAll();
     $data['manual'] = $this->manual;
     $breadcumb = $this->db->query('SELECT
