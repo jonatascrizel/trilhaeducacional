@@ -32,6 +32,8 @@
                     <hr />
                     <?php endif; ?>
                     <a href="<?=base_url('entrar/google')?>" class="btn btn-primary btn-lg mt-3"><i class="fab fa-google"></i> Entrar com Google</a>
+
+                    <p class="mt-3">Não está conseguindo? <a href="https://www.google.com/accounts/Logout" target="_blank">clique aqui</a>.</p>
                 </div>
 
             </div>

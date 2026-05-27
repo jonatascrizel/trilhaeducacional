@@ -18,8 +18,7 @@ class Entrar extends BaseController
         echo view('entrar', $data);
     }
 
-    public function auth()
-    {
+    public function auth() {
         //$captcha = new CaptchaLibrary();
         $status = verificarEnterprise($this->request->getVar('g-recaptcha-response'), 
                                       $this->session->get('reCaptchaKey'), 
@@ -80,7 +79,7 @@ class Entrar extends BaseController
         }
     }
 
-    public function google(){
+    public function google() {
         $url = "https://accounts.google.com/o/oauth2/v2/auth?" . http_build_query([
             'client_id'     => $this->session->get('gIdClient'),
             'redirect_uri'  => base_url('entrar/oauthCallback'),

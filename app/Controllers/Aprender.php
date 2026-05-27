@@ -81,7 +81,7 @@ class aprender extends BaseController
                                     cl.id_cursos_unidades,
                                     clt.icone,
                                     clt.tipo,
-                                    (SELECT id FROM cursante_licoes crl WHERE crl.id_licao = cl.id AND crl.id_cursante = "'.$this->session->get('cursante_id').'") AS respondido
+                                    (SELECT id FROM cursante_licoes crl WHERE crl.id_licao = cl.id AND crl.id_cursante = "'.$this->session->get('cursante_id').'" LIMIT 1) AS respondido
                                   FROM
                                     cursos_licoes cl,
                                     cursos_licoes_tipos clt,
