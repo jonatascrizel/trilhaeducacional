@@ -3,12 +3,19 @@
 namespace App\Controllers;
 
 use App\Models\cursanteModel;
+use App\Models\cursanteLogModel;
 use App\Libraries\CaptchaLibrary;
 use App\Libraries\MailcontrolLibrary;
 
 
 class Entrar extends BaseController
 {
+    public function __construct() {
+        //parent::__construct();
+        $this->model = new cursanteModel();
+        $this->cursanteLogModel = new cursanteLogModel();
+    }
+
     public function index() {
         //die(password_hash('metallica69', PASSWORD_DEFAULT).' - '.uniqid());
         helper(['form', 'uteis']);
@@ -16,8 +23,7 @@ class Entrar extends BaseController
         echo view('entrar', $data);
     }
 
-    public function auth()
-    {
+    public function auth() {
         //$captcha = new CaptchaLibrary();
         $status = verificarEnterprise($this->request->getVar('g-recaptcha-response'), 
                                       $this->session->get('reCaptchaKey'), 
@@ -26,11 +32,10 @@ class Entrar extends BaseController
                                       );
 
         if (isset($status) && $status === true) {
-            $model = new cursanteModel();
 
             $email = $this->request->getVar('InputForEmail');
             $password = $this->request->getVar('InputForPassword');
-            $data = $model->where(['email' => $email])->first();
+            $data = $this->model->where(['email' => $email])->first();
             //echo '<pre>'; var_dump($data); die;
             if ($data) {
                 $pass = $data->senha;
@@ -44,6 +49,8 @@ class Entrar extends BaseController
                         'acessado'     => TRUE
                     ];
                     $this->session->set($ses_data);
+
+                    $this->registra_login($data->id);
 
                     log_message('info', 'O cursante '.$this->session->get('cursante_nome').' logou no sistema');
                     
@@ -77,7 +84,7 @@ class Entrar extends BaseController
         }
     }
 
-    public function google(){
+    public function google() {
         $url = "https://accounts.google.com/o/oauth2/v2/auth?" . http_build_query([
             'client_id'     => $this->session->get('gIdClient'),
             'redirect_uri'  => base_url('entrar/oauthCallback'),
@@ -88,7 +95,7 @@ class Entrar extends BaseController
 
         return redirect()->to($url);
     }
-    public function oauthCallback(){
+    public function oauthCallback() {
         $code = $this->request->getVar('code');
 
         if (!$code) {
@@ -129,6 +136,8 @@ class Entrar extends BaseController
                 $this->session->set($ses_data);
 
                 log_message('info', 'O cursante '.$this->session->get('cursante_nome').' logou no sistema com sua conta Google');
+
+                $this->registra_login($data->id);
                 
                 return redirect()->to(base_url('/aprender'));
             } else {
@@ -151,8 +160,7 @@ class Entrar extends BaseController
         return $info;
     }
 
-    public function sair()
-    {
+    public function sair()  {
         log_message('info', 'O cursante '.$this->session->get('cursante_nome').' deslogou do sistema');
 
         $this->session = session();
@@ -160,8 +168,7 @@ class Entrar extends BaseController
         return redirect()->to(base_url('/entrar'));
     }
 
-    public function forget()
-    {
+    public function forget() {
         $eml = $this->request->getVar('InputForEmail');
         if ($eml != '') {
             $this->session = session();
@@ -212,6 +219,14 @@ class Entrar extends BaseController
                 return redirect()->to(base_url('/entrar'));
             }
         }
+    }
+
+    private function registra_login($id_cursante){
+        $dd = [
+            'id_cursante' => $id_cursante,
+            'registro' => 'Realizou login',
+        ];
+        $this->cursanteLogModel->insert($dd);
     }
 
 }
