@@ -345,33 +345,44 @@ function verificar_resposta() {
 }
 
 function responder_descritiva() {
-    //pede pro usuario aguardar
-    waitingDialog.show('Aguarde, processando', {
-      dialogSize: 'lg',
-      progressType: 'info'
-    });
+    if($('#resposta').val() == "") {
+      Swal.fire({
+        icon: 'error',
+        title: 'Preencha sua resposta antes de enviar!',
+        text: '',
+        showCancelButton: false,
+      }).then((result) => {
+        $("#resposta").focus('');
+      });
+    } else {
+      //pede pro usuario aguardar
+      waitingDialog.show('Aguarde, processando', {
+        dialogSize: 'lg',
+        progressType: 'info'
+      });
 
-    $.ajax({
-      type: 'post',
-      url: '../../../aprender/verificar_resposta',
-      data: {
-        id_licao: $('#id_licao').val(),
-        resposta: $('#resposta').val(),
-      },
-      success: function (r) {
-        waitingDialog.hide();
+      $.ajax({
+        type: 'post',
+        url: '../../../aprender/verificar_resposta',
+        data: {
+          id_licao: $('#id_licao').val(),
+          resposta: $('#resposta').val(),
+        },
+        success: function (r) {
+          waitingDialog.hide();
 
-        $("#resposta, #registra_resposta").prop("disabled", true);
+          $("#resposta, #registra_resposta").prop("disabled", true);
 
-        $("#btn_fechar").removeClass('d-none');
+          $("#btn_fechar").removeClass('d-none');
 
-        $('#retorno').html(r);        
+          $('#retorno').html(r);        
 
-        $('#'+id+' button').removeClass('btn-primary').addClass('btn-secondary');
-        $('#task_complete')[0].play();
-        ultima_licao();
-      },
-    });
+          $('#'+id+' button').removeClass('btn-primary').addClass('btn-secondary');
+          $('#task_complete')[0].play();
+          ultima_licao();
+        },
+      });
+    }
 }
 
 function verificar_ordem() {
