@@ -3,37 +3,39 @@
 namespace App\Controllers;
 
 use App\Models\cursanteModel;
+use App\Models\cursanteLogModel;
 use App\Libraries\CaptchaLibrary;
 use App\Libraries\MailcontrolLibrary;
 
 
 class Entrar extends BaseController
 {
-    public function index()
-    {
-        //die(password_hash('metallica69', PASSWORD_DEFAULT).' - '.uniqid());
+    public function __construct() {
+        //parent::__construct();
+        $this->model = new cursanteModel();
+        $this->cursanteLogModel = new cursanteLogModel();
+    }
 
+    public function index() {
+        //die(password_hash('metallica69', PASSWORD_DEFAULT).' - '.uniqid());
         helper(['form', 'uteis']);
         $data['reCaptchaKey'] = $this->session->get('reCaptchaKey');
         echo view('entrar', $data);
     }
 
-    public function auth()
-    {
+    public function auth() {
         //$captcha = new CaptchaLibrary();
         $status = verificarEnterprise($this->request->getVar('g-recaptcha-response'), 
                                       $this->session->get('reCaptchaKey'), 
                                       $this->session->get('gApiKey'),
                                       $this->session->get('gProjectID')
                                       );
-        $session = session();
 
         if (isset($status) && $status === true) {
-            $model = new cursanteModel();
 
             $email = $this->request->getVar('InputForEmail');
             $password = $this->request->getVar('InputForPassword');
-            $data = $model->where(['email' => $email])->first();
+            $data = $this->model->where(['email' => $email])->first();
             //echo '<pre>'; var_dump($data); die;
             if ($data) {
                 $pass = $data->senha;
@@ -46,12 +48,14 @@ class Entrar extends BaseController
                         'cursante_email'    => $data->email,
                         'acessado'     => TRUE
                     ];
-                    $session->set($ses_data);
+                    $this->session->set($ses_data);
+
+                    $this->registra_login($data->id);
 
                     log_message('info', 'O cursante '.$this->session->get('cursante_nome').' logou no sistema');
                     
                     if($data->troca_senha == 1){
-                        return redirect()->to(base_url('/aprender/trocaSenha'));
+                        return redirect()->to(base_url('/perfil/trocaSenha'));
                     } else {
                         return redirect()->to(base_url('/aprender'));
                     }
@@ -60,14 +64,14 @@ class Entrar extends BaseController
  
                     log_message('info', 'Tentativa de login de cursante falha (erro de senha) com o e-mail '.$this->request->getVar('InputForEmail'));
 
-                   $session->setFlashdata('msg', 'Senha inválida');
+                   $this->session->setFlashdata('msg', 'Senha inválida');
                     return redirect()->to(base_url('/entrar'));
                 }
             } else {
  
                 log_message('info', 'Tentativa de login de cursante falha (E-mail não encontrado) com o e-mail '.$this->request->getVar('InputForEmail'));
 
-                $session->setFlashdata('msg', 'E-mail não encontrado');
+                $this->session->setFlashdata('msg', 'E-mail não encontrado');
                 return redirect()->to(base_url('/entrar'));
             }
         } else {
@@ -75,12 +79,12 @@ class Entrar extends BaseController
             log_message('info', 'Tentativa de login de cursante falha (Erro na validação do reCaptcha) com o e-mail '.$this->request->getVar('InputForEmail'));
 
             log_message('error', 'Erro de captcha no acesso à área administrativa.');
-            $session->setFlashdata('msg', 'Erro na validação do reCaptcha. Tente novamente.');
+            $this->session->setFlashdata('msg', 'Erro na validação do reCaptcha. Tente novamente.');
             return redirect()->to(base_url('/entrar'));
         }
     }
 
-    public function google(){
+    public function google() {
         $url = "https://accounts.google.com/o/oauth2/v2/auth?" . http_build_query([
             'client_id'     => $this->session->get('gIdClient'),
             'redirect_uri'  => base_url('entrar/oauthCallback'),
@@ -91,7 +95,7 @@ class Entrar extends BaseController
 
         return redirect()->to($url);
     }
-    public function oauthCallback(){
+    public function oauthCallback() {
         $code = $this->request->getVar('code');
 
         if (!$code) {
@@ -117,14 +121,32 @@ class Entrar extends BaseController
             // Busca os dados do perfil do usuário
             $userData = $this->getGoogleUserInfo($response['access_token']);
 
-            echo '<pre>';
-            print_r($userData);
-            die;
+            //echo '<pre>'; print_r($userData); die;
             
-            // Aqui você integra com seu cursanteModel
-            // Ex: $this->session->set('acessado', true);
-            
-            return redirect()->to(base_url('/aprender'));
+            $model = new cursanteModel();
+            $data = $model->where(['email' => $userData['email']])->first();
+            //echo '<pre>-'; print_r($data); die;
+            if($data){
+                $ses_data = [
+                    'cursante_id'       => $data->id,
+                    'cursante_nome'     => $data->nome,
+                    'cursante_email'    => $data->email,
+                    'acessado'     => TRUE
+                ];
+                $this->session->set($ses_data);
+
+                log_message('info', 'O cursante '.$this->session->get('cursante_nome').' logou no sistema com sua conta Google');
+
+                $this->registra_login($data->id);
+                
+                return redirect()->to(base_url('/aprender'));
+            } else {
+
+                log_message('info', 'Tentativa de login de cursante falha (e-mail não encontrado) através do Google com o e-mail '.$userData['email']);
+
+                $this->session->setFlashdata('msg', 'E-mail não localizado. Verifique ou entre em contato com o administrador.');
+                return redirect()->to(base_url('/entrar'));
+            }
         }
     }
 
@@ -138,20 +160,18 @@ class Entrar extends BaseController
         return $info;
     }
 
-    public function sair()
-    {
+    public function sair()  {
         log_message('info', 'O cursante '.$this->session->get('cursante_nome').' deslogou do sistema');
 
-        $session = session();
-        $session->destroy();
+        $this->session = session();
+        $this->session->destroy();
         return redirect()->to(base_url('/entrar'));
     }
 
-    public function forget()
-    {
+    public function forget() {
         $eml = $this->request->getVar('InputForEmail');
         if ($eml != '') {
-            $session = session();
+            $this->session = session();
             $mailControl = new MailcontrolLibrary();
             $model = new cursanteModel();
 
@@ -189,16 +209,24 @@ class Entrar extends BaseController
 
                 log_message('info', 'Recuperação de senha do cursante com o e-mail '.$this->request->getVar('InputForEmail'));
 
-                $session->setFlashdata('msg', 'Lembrete enviado para o e-mail informado');
+                $this->session->setFlashdata('msg', 'Lembrete enviado para o e-mail informado');
                 return redirect()->to(base_url('/entrar'));
             } else {
 
                 log_message('info', 'Erro na recuperação de senha (e-mail não encontrado) com o e-mail '.$this->request->getVar('InputForEmail'));
 
-                $session->setFlashdata('msg', 'E-mail não encontrado');
+                $this->session->setFlashdata('msg', 'E-mail não encontrado');
                 return redirect()->to(base_url('/entrar'));
             }
         }
+    }
+
+    private function registra_login($id_cursante){
+        $dd = [
+            'id_cursante' => $id_cursante,
+            'registro' => 'Realizou login',
+        ];
+        $this->cursanteLogModel->insert($dd);
     }
 
 }
