@@ -289,7 +289,7 @@ function ver_card(id, id_cursos_licoes_tipo) {
           update: function(event, ui) {
               // Este evento dispara sempre que a ordem muda
               let novaOrdem = $(this).sortable("toArray");
-              console.log("Nova ordem:", novaOrdem);
+              //console.log("Nova ordem:", novaOrdem);
           }
         });
       }
@@ -386,14 +386,16 @@ function responder_descritiva() {
 }
 
 function verificar_ordem() {
+    var novaOrdem = $('#card_ordenar li').map(function() {
+        return this.id; // Captura o ID de cada <li>
+    }).get();
+
+    console.log(novaOrdem);
     //pede pro usuario aguardar
     waitingDialog.show('Aguarde, processando', {
       dialogSize: 'lg',
       progressType: 'info'
     });
-
-    let novaOrdem = $("#card_ordenar").sortable("toArray");
-    //console.log("Nova ordem:", novaOrdem);
 
     $.ajax({
       type: 'post',

@@ -173,6 +173,15 @@ class aprender extends BaseController
                 </form>
           ';  
         } else {
+          if($card->resposta_certa == $resp){
+            $html .= '
+                    <p class="text-success">Parabéns, resposta correta!</p>
+                  ';
+          } else {
+            $html .= '
+                    <p class="text-danger">Resposta errada! A resposta correta é a '.$card->resposta_certa.'</p>
+                  ';
+          }
           $html .= '
                   <button class="btn btn-primary mt-3" type="button" id="btn_fechar" data-bs-dismiss="modal" aria-label="Close">Fechar</button>
                 </form>
@@ -329,11 +338,37 @@ class aprender extends BaseController
         }
       } elseif($item->id_cursos_licoes_tipo == 7){
         $card = $this->licoesTipo7Model->where('id_cursos_licoes', $item->id)->first();
+
+        $colB = [
+          1 => '<li id="1">'.$card->colB1.'</li>',
+          2 => '<li id="2">'.$card->colB2.'</li>',
+          3 => '<li id="3">'.$card->colB3.'</li>',
+          4 => '<li id="4">'.$card->colB4.'</li>',
+          5 => '<li id="5">'.$card->colB5.'</li>',
+        ];
+
+        if(is_object($respondida)){
+          $resp = $respondida->resposta;
+          $dis = 1;
+
+          $respTMP = explode(',', $resp);
+          foreach ($respTMP as $key => $value) {
+            $colBTMP[$value] = $colB[$value];            
+          }
+          $colB = $colBTMP;
+          //$respFinal = $card->{"colB" . $respTMP[0]}.', '.$card->{"colB" . $respTMP[1]}.', '.$card->{"colB" . $respTMP[2]}.', '.$card->{"colB" . $respTMP[3]}.', '.$card->{"colB" . $respTMP[4]};
+
+        } else {
+          $resp = 0;
+          $dis = 0;
+          shuffle($colB);
+        }
+
         $html = '<form id="formCard" method="post" action="" class="mb-5 mt-3">
                   <input type="hidden" id="id_licao" name="id_licao" value="'. $id.'" />
                   <p>'.$card->enunciado.'</p>
 
-                  <div class="row ordenavel">
+                  <div class="row '.($dis == 0 ? 'ordenavel' : '').'">
                     <div class="col-12 col-md-6">
                       <ul>
                         <li>'.$card->colA1.'</li>
@@ -345,18 +380,19 @@ class aprender extends BaseController
                     </div>
                     <div class="col-12 col-md-6">
                       <ul id="card_ordenar">
-                        <li id="1">'.$card->colB1.'</li>
-                        <li id="2">'.$card->colB2.'</li>
-                        <li id="3">'.$card->colB3.'</li>
-                        <li id="4">'.$card->colB4.'</li>
-                        <li id="5">'.$card->colB5.'</li>
-                      </ul>
+                        ';
+        foreach ($colB as $key => $value) {
+          $html .= $value.' ';
+        }
+
+        $html .= '     </ul>
                     </div>
                   </div>
         ';
 
         if(!is_object($respondida)){
           $html .= '
+                  <p> Para ordenar, você deve arrastar as opções da coluna B.</p>
                   <div id="retorno"></div>
 
                   <button class="btn btn-primary mt-3" type="button" id="registra_resposta" onclick="verificar_ordem()">Verificar resposta</button>
@@ -364,6 +400,17 @@ class aprender extends BaseController
                 </form>
           ';  
         } else {
+          $check = array_diff_assoc([1,2,3,4,5], $respTMP);
+          if(empty($check)){
+            $html .= '
+                    <p class="text-success">Parabéns, resposta correta!</p>
+                  ';
+          } else {
+            $html .= '
+                    <p class="text-danger">Resposta errada! A sequência correta é a '.$card->colB1.' / '.$card->colB2.' / '.$card->colB3.' / '.$card->colB4.' / '.$card->colB5.'</p>
+                  ';
+          }
+
           $html .= '
                   <button class="btn btn-primary mt-3" type="button" id="btn_fechar" data-bs-dismiss="modal" aria-label="Close">Fechar</button>
                 </form>
@@ -373,19 +420,20 @@ class aprender extends BaseController
         $card = $this->licoesTipo8Model->where('id_cursos_licoes', $item->id)->first();
         $resposta = ['V' => '', 'F' => ''];
         if(is_object($respondida)){
-          $resposta[$respondida->vouf] = 'checked';
+          $resp = $respondida->resposta;
+          $resposta[$respondida->resposta] = 'checked';
         }
         $html = '<form id="formCard" method="post" action="" class="mb-5 mt-3">
                   <input type="hidden" id="id_licao" name="id_licao" value="'. $id.'" />
                 <p>'.$card->vouf_pergunta.'</p>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="resposta" id="vouf_v" value="V" onclick="libera_enviar_resposta()" required />
+                  <input class="form-check-input" type="radio" name="resposta" id="vouf_v" value="V" onclick="libera_enviar_resposta()" required '.$resposta['V'].' />
                   <label class="form-check-label" for="vouf_v">
                     Verdadeiro
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="resposta" id="vouf_f" value="F" onclick="libera_enviar_resposta()" />
+                  <input class="form-check-input" type="radio" name="resposta" id="vouf_f" value="F" onclick="libera_enviar_resposta()" '.$resposta['F'].' />
                   <label class="form-check-label" for="vouf_f">
                     Falso
                   </label>
@@ -400,6 +448,15 @@ class aprender extends BaseController
                 </form>
           ';  
         } else {
+          if($card->vouf == $resp){
+            $html .= '
+                    <p class="text-success">Parabéns, resposta correta!</p>
+                  ';
+          } else {
+            $html .= '
+                    <p class="text-danger">Resposta errada!</p>
+                  ';
+          }
           $html .= '
                   <button class="btn btn-primary mt-3" type="button" id="btn_fechar" data-bs-dismiss="modal" aria-label="Close">Fechar</button>
                 </form>
