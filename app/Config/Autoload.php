@@ -92,5 +92,5 @@ class Autoload extends AutoloadConfig
      *
      * @var list<string>
      */
-    public $helpers = ['sitemap'];
+    public $helpers = ['sitemap', 'file'];
 }
