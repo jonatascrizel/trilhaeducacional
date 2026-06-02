@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers;
+use App\Models\UserModel;
 
 require('../vendor/autoload.php');
 
@@ -21,6 +22,7 @@ class dashboard extends BaseController
             7 => 'Sab',
         ];
 
+        $this->UserModel = new UserModel();
     }
 
     public function index() {

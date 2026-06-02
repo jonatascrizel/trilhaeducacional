@@ -26,14 +26,6 @@ class UserModel extends Model
         return $query->getResult();
     }
 
-
-    /**
-     * geraMenu
-     * Gera os menus do sistema habilitado para um usuário específico
-     *
-     * @param  int $id_usuario
-     * @return array
-     */
     public function geraMenu($id_usuario)
     {
         $query = $this->db->query('SELECT
@@ -52,5 +44,24 @@ class UserModel extends Model
                                         m.nome');
 
         return $query->getResult();
+    }
+
+    public function getMenus()
+    {
+        $query = $this->db->query('SELECT * FROM menus ORDER BY nome');
+        return $query->getResult();
+    }
+
+    public function salvaMenusUsuario($arr_menus, $id_user)
+    {
+        //apaga as permissões já existentes
+        $this->db->query('DELETE FROM usuario_x_menu WHERE id_user = ' . $id_user);
+
+        $sql = 'INSERT INTO usuario_x_menu (id_menu, id_user) VALUES ';
+        foreach ($arr_menus as $v) {
+            $sql .= ' (' . $v . ', ' . $id_user . '),';
+        }
+        $sql = substr($sql, 0, -1);
+        $this->db->query($sql);
     }
 }
