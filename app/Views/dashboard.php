@@ -5,12 +5,11 @@
 
     <!-- Atalhos rápidos -->
     <div class="row pb-2 mb-3" id="atalhos">
-<!--        
         <div class="col">
-            <a href="<?= base_url('/clientes/add/1') ?>" class="btn btn-personal btn-sm" title="Adiciona um novo cliente">
-                <i class="fas fa-user-friends"></i> Adicionar cliente</a>
+            <a href="<?= base_url('/dashboard/geraStats') ?>" onclick="setTimeout(function() { location.reload();}, 3000);" class="btn btn-personal btn-sm" title="Atualiza estatísticas" target="_blank">
+                <i class="fas fa-sync"></i> Atualizar</a>
         </div>
--->
+
     </div>
     <!-- Atalhos rápidos -->
 
@@ -364,7 +363,8 @@
             }
         });
 
+        function atualizar(){
 
-
+        }
     };
 </script>
