@@ -37,11 +37,16 @@ class Cursantes extends BaseController
                 ->orderBy('nome', 'asc')
                 ->findAll();
 
-    $html = '<div class="row">';
+    $html = '<div class="row">
+        <div class="col-4 mb-1 border-bottom">Nome</div>
+        <div class="col-6 mb-1 border-bottom">E-mail</div>
+        <div class="col-2 mb-1 border-bottom">Ações</div>
+      ';
     foreach($txt as $t){
       $html .= '
         <div class="col-4 mb-1 border-bottom">' . $t->nome . '</div>
-        <div class="col-8 mb-1 border-bottom">' . $t->email . '</div>
+        <div class="col-6 mb-1 border-bottom">' . $t->email . '</div>
+        <div class="col-2 mb-1 border-bottom"><a href="'.base_url('/Aprender/aVerRespostasCursante/'.$t->id.'/'.$id).'" title="Ver respostas"><i class="far fa-file-excel"></i></a></div>
       ';
     }
 

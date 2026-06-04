@@ -532,4 +532,8 @@ class aprender extends BaseController
         return json_encode($data);
       }
     }
+
+    public function aVerRespostasCursante($id_cursante, $id_curso){
+      
+    }
 }

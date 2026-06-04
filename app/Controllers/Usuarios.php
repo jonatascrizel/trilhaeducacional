@@ -43,6 +43,7 @@ class usuarios extends BaseController
     public function add()
     {
         $data['manual'] = $this->manual;
+        $data['menus'] = $this->UserModel->getMenus();
 
         echo view('header');
         echo view('menu');
@@ -70,6 +71,13 @@ class usuarios extends BaseController
         ];
         $save = $this->UserModel->insert($data);
 
+        if(is_array($this->request->getVar('menus'))) {
+            $this->UserModel->salvaMenusUsuario($this->request->getVar('menus'), $save);
+        }
+
+        die($pws_provisorio);
+
+        /*
         //envia e-mail com a senha provisória
         $texto = $this->textosModel->where('id', 1)->first();
         $arr_trocar = [
@@ -95,7 +103,7 @@ class usuarios extends BaseController
         ),
 		];
 		$mailControl->sendEmail($email);
-
+        */
 
         return redirect()->to(base_url('usuarios'));
     }
