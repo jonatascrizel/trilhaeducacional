@@ -279,8 +279,11 @@ function ver_card(id, id_cursos_licoes_tipo) {
       $('#jsModalLabel').html('');
       $('#jsModal .modal-body').html(r);
       if(id_cursos_licoes_tipo == 6){
-        var myCarousel = document.querySelector('#carouselExampleSlidesOnly')
-        var carousel = new bootstrap.Carousel(myCarousel)
+        var myCarousel = document.querySelector('#carouselCards');
+        var carousel = new bootstrap.Carousel(myCarousel, {
+          ride: 'carousel',
+          touch: true
+        });
       }
       if(id_cursos_licoes_tipo == 7){
         $("#card_ordenar").sortable({

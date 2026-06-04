@@ -19,8 +19,8 @@
       </div>
       <!-- fim modal -->
 
-      <div id="toasters" class="position-fixed top-0 end-0 mt-5 p-3" style="z-index: 11">
-      </div>
+
+      <div id="toasters" class="position-fixed top-0 end-0 mt-5 p-3" style="z-index:11;"></div>
 
       <script>
         const caminho = "<?= base_url() ?>";

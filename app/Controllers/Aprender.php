@@ -264,7 +264,7 @@ class aprender extends BaseController
         }
       } elseif($item->id_cursos_licoes_tipo == 6){
         $card = $this->licoesTipo6Model->where('id_cursos_licoes', $item->id)->first();
-        $html = '<div id="carouselCards" class="carousel slide" data-bs-ride="carousel">
+        $html = '<div id="carouselCards" class="carousel slide" data-bs-touch="true">
                   <div class="carousel-indicators">
                     <button type="button" data-bs-target="#carouselCards" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                     ';
