@@ -10,7 +10,7 @@
                         <div class="alert alert-danger"><?= session()->getFlashdata('msg') ?></div>
                     <?php endif; ?>
 
-                    <?php if (env('CI_ENVIRONMENT') == 'development') : ?>
+                    <?php if (env('CI_ENVIRONMENT') == 'development') { ?>
                     <h1 class="h3 text-center mt-5">Entrar</h1>
                     <form action="<?= base_url('entrar/auth') ?>" method="post" id="formLogin">
                         <div class="mb-3">
@@ -30,10 +30,11 @@
                         <a class="btn btn-outline-warning mb-2" onclick="esqueciSenha()">Esqueci a senha</a>
                     </form>
                     <hr />
-                    <?php endif; ?>
+                    <?php } else { ?>
                     <a href="<?=base_url('entrar/google')?>" class="btn btn-primary btn-lg mt-3"><i class="fab fa-google"></i> Entrar com Google</a>
 
                     <p class="mt-3">Não está conseguindo? <a href="https://www.google.com/accounts/Logout" target="_blank">clique aqui</a>.</p>
+                    <?php } ?>
                 </div>
 
             </div>
