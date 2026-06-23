@@ -85,8 +85,7 @@ class Login extends BaseController
         return redirect()->to(base_url('/login'));
     }
 
-    public function forget()
-    {
+    public function forget() {
         $eml = $this->request->getVar('InputForEmail');
         if ($eml != '') {
             $mailControl = new MailcontrolLibrary();
