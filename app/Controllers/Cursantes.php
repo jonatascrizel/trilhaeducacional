@@ -32,11 +32,12 @@ class Cursantes extends BaseController
 
   public function ver($id) {
     $txt = $this->cursanteModel
+                ->select('cursante.id, cursante.nome, cursante.email')
                 ->join('cursante_cursos', 'id_cursante = cursante.id')
                 ->where('cursante_cursos.id_cursos', $id)
                 ->orderBy('nome', 'asc')
                 ->findAll();
-
+    //echo '<pre>'; print_r($txt); die;
     $html = '<div class="row">
         <div class="col-4 mb-1 border-bottom">Nome</div>
         <div class="col-6 mb-1 border-bottom">E-mail</div>
@@ -46,7 +47,7 @@ class Cursantes extends BaseController
       $html .= '
         <div class="col-4 mb-1 border-bottom">' . $t->nome . '</div>
         <div class="col-6 mb-1 border-bottom">' . $t->email . '</div>
-        <div class="col-2 mb-1 border-bottom"><a href="'.base_url('/Aprender/aVerRespostasCursante/'.$t->id.'/'.$id).'" title="Ver respostas"><i class="far fa-file-excel"></i></a></div>
+        <div class="col-2 mb-1 border-bottom"><a href="'.base_url('/Downloads/aVerRespostasCursante/'.$t->id.'/'.$id).'" title="Ver respostas"><i class="far fa-file-excel"></i></a></div>
       ';
     }
 

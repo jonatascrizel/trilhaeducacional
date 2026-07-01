@@ -44,6 +44,7 @@
                 <td>
                   <a href="javascript:ver_unidades('<?= $n->id ?>')" title="Ver unidades"><i class="far fa-list-alt"></i></a>
                   <a href="javascript:ver_inscritos('<?= $n->id ?>')" title="Ver inscritos"><i class="fas fa-address-book"></i></a>
+                  <a href="<?=base_url('/Downloads/aVerRespostas/'.$n->id)?>" title="Ver respostas"><i class="far fa-file-excel"></i></a>
                   <a href="<?= base_url('cursos/edit/' . $n->id) ?>" title="Editar"><i class="far fa-edit"></i></a>
                 </td>
               </tr>

@@ -4,86 +4,85 @@ namespace App\Controllers;
 
 require('../vendor/autoload.php');
 
-use App\Models\downloadModel;
-use App\Models\manualModel;
+use App\Models\cursanteLicaoModel;
 
 class downloads extends BaseController
 {
 
-    public function __construct()
-    {
-        //parent::__construct();
-        $this->bannerModel = new downloadModel();
-        $this->manualModel = new manualModel();
-        $this->manual = $this->manualModel->where('id', 51)->first()->manual;
+    public function __construct() {
+        $this->cursanteLicaoModel = new cursanteLicaoModel();
     }
 
-
-    public function index()
-    {
-        return redirect()->to(base_url('downloads/listar'));
+    public function index(){
+        return redirect()->to(base_url('/'));
     }
 
-    public function listar()
-    {
-        log_message('info', 'O usuário '.$this->session->get('user_name').' acessou a listagem de banners');
+    public function aVerRespostasCursante($id_cursante, $id_curso){
+      helper('xmlwriter');
 
-        $data['banners'] = $this->bannerModel->orderBy('nome', 'asc')->findAll();
-        $data['manual'] = $this->manual;
-
-        echo view('header');
-        echo view('menu');
-        echo view('banners_lista', $data);
-        echo view('footer');
-    }
-
-    public function add()
-    {
-        $data['manual'] = $this->manual;
-
-        echo view('header');
-        echo view('menu');
-        echo view('banners_add', $data);
-        echo view('footer');
-    }
-
-    public function store() {
-      log_message('info', 'O usuário '.$this->session->get('user_name').' adicionou o banner '.$this->request->getVar('nome'));
-
-      $data = [
-          'id'  => $this->request->getVar('id'),
-          'nome' => ($this->request->getVar('nome')),
-          'titulo'  => $this->request->getVar('titulo'),
-          'frase_apoio' => ($this->request->getVar('frase_apoio')),
-          'link' => ($this->request->getVar('link')),
-          'imagem'  => $this->request->getVar('imagemOld'),
-      ];
-
-      $img = $this->request->getFile('imagem');
-      if ($img != '') {
-        $nome_img = slugify($this->request->getVar('nome')).'.'.$img->getClientExtension();
-        $path = $img->move(ROOTPATH.'/public/uploads/', $nome_img, true);
-
-        $data['imagem'] = $nome_img;
+      $respostas = $this->cursanteLicaoModel->getRespostas($id_curso, $id_cursante);
+      $dados = [];
+      foreach($respostas as $r){
+        $dados[] = [
+          'curso' => $r->curso,
+          'nome' => $r->nome,
+          'unidade' => $r->numero.' '.$r->unidade,
+          'questao' => $r->questao,
+          'resposta_certa' => $r->resposta_certa,
+          'resposta' => $r->resposta,
+          'feita_em' => $r->feita_em,
+        ];
       }
+      //echo '<pre>'; print_r($dados); die;
 
-      //echo '<pre>'; print_r($data); die;
 
-      $save = $this->bannerModel->replace($data);
+      $header = [
+        'Curso'=>'string',
+        'Nome'=>'string',
+        'Unidade'=>'string',
+        'Questão'=>'string',
+        'Resposta certa'=>'string',
+        'Resposta'=>'string',
+        'Respondido em'=>'string',
+        ];
+      
+      //echo '<pre>'; print_r($header); die;
 
-      return redirect()->to(base_url('banners'));
+      gravaXLS($dados, slugify('respostas-individual') . '.xlsx', $header);
     }
 
-    public function edit($id)
-    {
-        $data['banners'] = $this->bannerModel->where('id', $id)->first();
-        $data['manual'] = $this->manual;
+    public function aVerRespostas($id_curso){
+      helper('xmlwriter');
 
-        echo view('header');
-        echo view('menu');
-        echo view('banners_edit', $data);
-        echo view('footer');
+      $respostas = $this->cursanteLicaoModel->getRespostas($id_curso);
+      $dados = [];
+      foreach($respostas as $r){
+        $dados[] = [
+          'curso' => $r->curso,
+          'nome' => $r->nome,
+          'unidade' => $r->numero.' '.$r->unidade,
+          'questao' => $r->questao,
+          'resposta_certa' => $r->resposta_certa,
+          'resposta' => $r->resposta,
+          'feita_em' => $r->feita_em,
+        ];
+      }
+      //echo '<pre>'; print_r($dados); die;
+
+
+      $header = [
+        'Curso'=>'string',
+        'Nome'=>'string',
+        'Unidade'=>'string',
+        'Questão'=>'string',
+        'Resposta certa'=>'string',
+        'Resposta'=>'string',
+        'Respondido em'=>'string',
+        ];
+      
+      //echo '<pre>'; print_r($header); die;
+
+      gravaXLS($dados, slugify('respostas-curso') . '.xlsx', $header);
     }
-
 
 }

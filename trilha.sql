@@ -10,6 +10,7 @@ GROUP BY
 	cl.id_cursante;
 	
 SELECT
+	cs.nome AS curso,
 	c.nome,
 	cu.numero,
 	cu.unidade,
@@ -31,6 +32,7 @@ SELECT
 FROM
 	cursante_licoes cul,
 	cursante c,
+	cursos cs,
 	cursos_unidades cu,
 	cursos_licoes cl
 	LEFT JOIN cursos_licoes_tipo_1 clt1 ON clt1.id_cursos_licoes = cl.id
@@ -38,7 +40,8 @@ FROM
 	LEFT JOIN cursos_licoes_tipo_7 clt7 ON clt7.id_cursos_licoes = cl.id
 	LEFT JOIN cursos_licoes_tipo_8 clt8 ON clt8.id_cursos_licoes = cl.id
 WHERE
-	cu.id_curso = 1
+	cs.id = 1
+	AND cu.id_curso = cs.id
 	AND cu.id = cl.id_cursos_unidades
 	AND cl.id_cursos_licoes_tipo IN (1,5,7,8)
 	AND cul.id_licao = cl.id

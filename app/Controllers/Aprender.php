@@ -533,7 +533,4 @@ class aprender extends BaseController
       }
     }
 
-    public function aVerRespostasCursante($id_cursante, $id_curso){
-      
-    }
 }
