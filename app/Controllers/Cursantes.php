@@ -12,6 +12,7 @@ class Cursantes extends BaseController
 {
   public function __construct() {
     //parent::__construct();
+    check_menu_access(53);
     $this->cursanteModel = new cursanteModel();
     $this->manualModel = new manualModel();
     $this->manual = $this->manualModel->where('id', 53)->first()->manual;
@@ -27,7 +28,7 @@ class Cursantes extends BaseController
     $data['textos'] = $this->cursanteModel->orderBy('nome', 'asc')->findAll();
     $data['manual'] = $this->manual;
 
-    echo view('cursantes_lista', $data);
+    return view('cursantes_lista', $data);
   }
 
   public function ver($id) {
@@ -56,7 +57,7 @@ class Cursantes extends BaseController
     return $html;
   }
 
-   public function aInscricoes($id) {
+  public function aInscricoes($id) {
     $txt = $this->db->query('SELECT
                                 c.nome,
                                 aceito_em
@@ -70,7 +71,7 @@ class Cursantes extends BaseController
     $html = '<div class="row">
               <div class="col-4 mb-1 border-bottom">Curso</div>
               <div class="col-8 mb-1 border-bottom">Adicionado em</div>
-';
+            ';
     foreach($txt as $t){
       $html .= '
         <div class="col-4 mb-1 border-bottom">' . $t->nome . '</div>
@@ -82,18 +83,19 @@ class Cursantes extends BaseController
     ';
     return $html;
   }
+
   public function add() {
     $data['id'] = gerarUUID();
     $data['manual'] = $this->manual;
 
-    echo view('cursantes_add', $data);
+    return  view('cursantes_add', $data);
   }
 
   public function edit($id) {
     $data['txt'] = $this->cursanteModel->where('id', $id)->first();
     $data['manual'] = $this->manual;
 
-    echo view('cursantes_edit', $data);
+    return view('cursantes_edit', $data);
   }
 
   public function update() {

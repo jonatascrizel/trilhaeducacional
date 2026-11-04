@@ -16,6 +16,7 @@ class Cursos extends BaseController
   public function __construct()
   {
     //parent::__construct();
+    check_menu_access(52);
     $this->cursosModel = new cursosModel();
     $this->unidadesModel = new unidadesModel();
     $this->cursanteModel = new cursanteModel();
@@ -34,13 +35,13 @@ class Cursos extends BaseController
     $data['textos'] = $this->cursosModel->orderBy('nome', 'asc')->findAll();
     $data['manual'] = $this->manual;
 
-    echo view('cursos_lista', $data);
+    return view('cursos_lista', $data);
   }
 
   public function add() {
     $data['manual'] = $this->manual;
 
-    echo view('cursos_add', $data);
+    return view('cursos_add', $data);
   }
 
   public function edit($id) {
@@ -54,7 +55,7 @@ class Cursos extends BaseController
                                 ->findAll();
     $data['manual'] = $this->manual;
 
-    echo view('cursos_edit', $data);
+    return view('cursos_edit', $data);
   }
 
   public function update() {
@@ -90,7 +91,7 @@ class Cursos extends BaseController
                                                 AND cc.id_cursos = '.$id.')'
                                             )->getResult();
     //echo '<pre>'; var_dump($data['cursantes']); die;
-    echo view('cursos_inscrever', $data);
+    return view('cursos_inscrever', $data);
   }
 
   public function submit() {

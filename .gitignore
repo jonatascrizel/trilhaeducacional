@@ -122,3 +122,6 @@ _modules/*
 /phpunit*.xml
 
 *.sql
+
+#composer
+/vendor

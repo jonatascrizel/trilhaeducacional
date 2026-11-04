@@ -13,7 +13,7 @@ class UserModel extends Model
     protected $returnType = 'object';
     protected $allowedFields = ['user_name', 'user_email', 'user_password', 'user_created_at', 'ativo','troca_senha','telefone'];
 
-    public function listaUsuarios(){
+    public function listaUsuarios() {
         $query = $this->db->query('SELECT 
                                         u.id,
                                         u.user_name,
@@ -26,8 +26,7 @@ class UserModel extends Model
         return $query->getResult();
     }
 
-    public function geraMenu($id_usuario)
-    {
+    public function geraMenu($id_usuario) {
         $query = $this->db->query('SELECT
                                         m.id,
                                         m.nome,
@@ -46,22 +45,24 @@ class UserModel extends Model
         return $query->getResult();
     }
 
-    public function getMenus()
-    {
+    public function getMenus() {
         $query = $this->db->query('SELECT * FROM menus ORDER BY nome');
         return $query->getResult();
     }
 
-    public function salvaMenusUsuario($arr_menus, $id_user)
-    {
+    public function salvaMenusUsuario($arr_menus, $id_user) {
         //apaga as permissões já existentes
-        $this->db->query('DELETE FROM usuario_x_menu WHERE id_user = ' . $id_user);
+        $this->db->query('DELETE FROM usuario_x_menu WHERE id_usuario = ' . $id_user);
 
-        $sql = 'INSERT INTO usuario_x_menu (id_menu, id_user) VALUES ';
+        $sql = 'INSERT INTO usuario_x_menu (id_menu, id_usuario) VALUES ';
         foreach ($arr_menus as $v) {
             $sql .= ' (' . $v . ', ' . $id_user . '),';
         }
         $sql = substr($sql, 0, -1);
         $this->db->query($sql);
+    }
+
+    public function checkMenu($id_user, $id_menu){
+        return $this->db->query('SELECT COUNT(*) as cont FROM usuario_x_menu WHERE id_usuario = ' . $id_user . ' AND id_menu = ' . $id_menu);
     }
 }

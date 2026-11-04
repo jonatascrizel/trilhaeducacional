@@ -12,13 +12,14 @@ class AutoConfig implements FilterInterface
 {
   public function before(RequestInterface $request, $arguments = null)
   {
-    $model = new configModel();
+    $configs = cache()->remember('app_global_configs', 86400, function () {
+      $model = new configModel();
+      return $model->findAll();
+    });
+
     $session = session();
-    $data = $model->findAll();
-    foreach ($data as $v) {
-      //echo $v->configName . '<hr>';
-      //$_SESSION[$v->configName] = $v->configValue;
-      $session->set($v->configName, $v->configValue);
+    foreach ($configs as $v) {
+        $session->set($v->configName, $v->configValue);
     }
   }
 

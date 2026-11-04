@@ -12,6 +12,7 @@ class Unidades extends BaseController
 {
   public function __construct() {
     //parent::__construct();
+    check_menu_access(52);
     $this->unidadesModel = new unidadesModel();
     $this->licoesModel = new licoesModel();
     $this->manualModel = new manualModel();
@@ -42,7 +43,7 @@ class Unidades extends BaseController
     $data['id'] = $id;
     $data['manual'] = $this->manual;
 
-    echo view('unidades_add', $data);
+    return view('unidades_add', $data);
   }
 
   public function edit($id) {
@@ -68,7 +69,7 @@ class Unidades extends BaseController
     $data['txt'] = $unidade;
     $data['breadcumb'] = $breadcumb[0];
 
-    echo view('unidades_edit', $data);
+    return view('unidades_edit', $data);
   }
 
   public function update() {

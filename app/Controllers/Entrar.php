@@ -17,10 +17,9 @@ class Entrar extends BaseController
     }
 
     public function index() {
-        //die(password_hash('metallica69', PASSWORD_DEFAULT).' - '.uniqid());
         helper(['form', 'uteis']);
         $data['reCaptchaKey'] = $this->session->get('reCaptchaKey');
-        echo view('entrar', $data);
+        return view('entrar', $data);
     }
 
     public function auth() {

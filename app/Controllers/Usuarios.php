@@ -15,10 +15,13 @@ class usuarios extends BaseController
     public function __construct()
     {
         //parent::__construct();
+        check_menu_access(1);
+
         $this->UserModel = new UserModel();
         $this->manualModel = new manualModel();
         $this->textosModel = new textosModel();
         $this->manual = $this->manualModel->where('id', 1)->first()->manual;
+
     }
 
 
@@ -34,10 +37,7 @@ class usuarios extends BaseController
         $data['users'] = $this->UserModel->listaUsuarios();
         $data['manual'] = $this->manual;
 
-        echo view('header');
-        echo view('menu');
-        echo view('usuarios_lista', $data);
-        echo view('footer');
+        return view('usuarios_lista', $data);
     }
 
     public function add()
@@ -45,10 +45,7 @@ class usuarios extends BaseController
         $data['manual'] = $this->manual;
         $data['menus'] = $this->UserModel->getMenus();
 
-        echo view('header');
-        echo view('menu');
-        echo view('usuarios_add', $data);
-        echo view('footer');
+        return view('usuarios_add', $data);
     }
 
     public function store() {
@@ -113,10 +110,7 @@ class usuarios extends BaseController
         $data['users'] = $this->UserModel->where('id', $id)->first();
         $data['manual'] = $this->manual;
 
-        echo view('header');
-        echo view('menu');
-        echo view('usuarios_edit', $data);
-        echo view('footer');
+        return view('usuarios_edit', $data);
     }
 
     public function update()

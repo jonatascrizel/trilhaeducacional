@@ -12,6 +12,7 @@ class textos extends BaseController
   public function __construct()
   {
     //parent::__construct();
+    check_menu_access(3);
     $this->textosModel = new textosModel();
     $this->manualModel = new manualModel();
     $this->manual = $this->manualModel->where('id', 3)->first()->manual;
@@ -29,10 +30,7 @@ class textos extends BaseController
     $data['textos'] = $this->textosModel->orderBy('nome', 'asc')->findAll();
     $data['manual'] = $this->manual;
 
-    echo view('header');
-    echo view('menu');
-    echo view('texto_lista', $data);
-    echo view('footer');
+    return view('texto_lista', $data);
   }
 
   public function aGetTexto($id)
@@ -59,10 +57,7 @@ class textos extends BaseController
     $data['txt'] = $this->textosModel->where('id', $id)->first();
     $data['manual'] = $this->manual;
 
-    echo view('header');
-    echo view('menu');
-    echo view('texto_edit', $data);
-    echo view('footer');
+    return view('texto_edit', $data);
   }
 
   public function update()

@@ -1,3 +1,7 @@
+<?= $this->extend('layouts/admin') ?>
+
+<?= $this->section('content') ?>
+
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 vh-100">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Configurações</h1>
@@ -23,7 +27,6 @@
             <tr>
               <th>#</th>
               <th>Item</th>
-              <th>Valor</th>
               <th>Ações</th>
             </tr>
           </thead>
@@ -35,7 +38,6 @@
               <tr>
                 <td><?= ($k + 1) ?></td>
                 <td><?= $n->configName ?></td>
-                <td><?= limitaTxt($n->configValue, 40) ?></td>
                 <td>
                   <a href="<?= base_url('/configuracoes/edit/' . $n->id) ?>" title="Editar"><i class="fas fa-edit"></i></a>
                   <a class="d-inline-block" title="<?= $n->descricao ?>">
@@ -87,3 +89,5 @@
       });
   };
 </script>
+
+<?= $this->endSection() ?>

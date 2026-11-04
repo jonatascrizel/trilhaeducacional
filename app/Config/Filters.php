@@ -111,15 +111,15 @@ class Filters extends BaseFilters
 		'auth' => [
             'before' => [
                 'configuracoes/*', 
-                'dashboard', 
+                'dashboard/index', 
                 'manuais/*', 
-                'perfis/*', 
                 'textos/*',
                 'usuarios/*', 
                 'cursantes/*',
                 'cursos/*',
                 'unidades/*',
                 'licoes/*',
+                'downloads/*',
             ],
         ],
         'acesso' => [

@@ -8,6 +8,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use App\Models\cidadesModel;
 use App\Models\estadosModel;
+use App\Libraries\CredentialLibrary;
 
 /**
  * Class BaseController
@@ -29,7 +30,7 @@ class BaseController extends Controller
 	 *
 	 * @var array
 	 */
-	protected $helpers = ['utils','text'];
+	protected $helpers = ['utils','text','checkCredencialMenu'];
 
 	/**
 	 * Constructor.

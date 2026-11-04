@@ -26,6 +26,10 @@ $config = array();
 // https://ckeditor.com/docs/ckfinder/ckfinder3-php/configuration.html#configuration_options_authentication
 
 $config['authentication'] = function () {
+    if (!session()->has('logged_in')) {
+        return false;
+    }
+    
     return true;
 };
 
@@ -68,7 +72,7 @@ $config['backends'][] = array(
     'adapter'      => 'local',
     'baseUrl'      => '/public/ckfinder/userfiles/',
 //  'root'         => '', // Can be used to explicitly set the CKFinder user files directory.
-    'chmodFiles'   => 0777,
+    'chmodFiles'   => 0640,
     'chmodFolders' => 0755,
     'filesystemEncoding' => 'UTF-8',
 );

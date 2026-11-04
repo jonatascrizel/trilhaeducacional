@@ -32,18 +32,12 @@ class dashboard extends BaseController
         }
         
         //$data = [];
-        echo view('header');
-        echo view('menu');
-        echo view('dashboard', $data);
-        echo view('footer');
+        return view('dashboard', $data);
     }
 
     public function trocaSenha() {
         $data = [];
-        echo view('header');
-        echo view('menu');
-        echo view('troca_senha', $data);
-        echo view('footer');
+        return view('troca_senha', $data);
     }
 
     public function trocaSenhaDo() {

@@ -22,6 +22,7 @@ use App\Models\licoesTipo8Model;
 class Licoes extends BaseController
 {
   public function __construct() {
+    check_menu_access(52);
     //parent::__construct();
     $this->licoesModel = new licoesModel();
     $this->licoesTipoModel = new licoesTipoModel();
@@ -67,7 +68,7 @@ class Licoes extends BaseController
     $data['tipos'] = $this->licoesTipoModel->findAll();
     $data['manual'] = $this->manual;
 
-    echo view('licoes_add', $data);
+    return view('licoes_add', $data);
   }
 
   public function edit($id) {
@@ -113,7 +114,7 @@ class Licoes extends BaseController
     $data['tipos'] = $this->licoesTipoModel->findAll();
     $data['manual'] = $this->manual;
 
-    echo view('licoes_edit', $data);
+    return view('licoes_edit', $data);
   }
 
   public function update() {

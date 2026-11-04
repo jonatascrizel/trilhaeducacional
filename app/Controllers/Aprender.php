@@ -157,7 +157,7 @@ class aprender extends BaseController
                   </div>
 
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" name="resposta" id="resposta5"  value="5" onclick="libera_enviar_resposta()" '.($resp == 51 ? 'checked' : '').' '.($dis == 1 ? 'disabled' : '').' />
+                    <input class="form-check-input" type="radio" name="resposta" id="resposta5"  value="5" onclick="libera_enviar_resposta()" '.($resp == 5 ? 'checked' : '').' '.($dis == 1 ? 'disabled' : '').' />
                     <label class="form-check-label" for="resposta5">
                       '.$card->resposta5.'
                     </label>

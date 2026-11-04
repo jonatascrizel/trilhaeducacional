@@ -1,0 +1,19 @@
+#!/usr/bin/env php
+<?php
+
+if (version_compare(PHP_VERSION, '7.4', '<')) {
+    echo 'Your PHP version must be 7.4 or higher to run CodeIgniter. Current version: ' . PHP_VERSION;
+    exit(1);
+}
+
+define('FCPATH', __DIR__ . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR);
+
+chdir(FCPATH);
+
+require FCPATH . '../app/Config/Paths.php';
+
+$paths = new Config\Paths();
+
+require rtrim($paths->systemDirectory, '\\/ ') . DIRECTORY_SEPARATOR . 'Boot.php';
+
+exit(CodeIgniter\Boot::bootSpark($paths));

@@ -10,10 +10,9 @@ use App\Libraries\MailcontrolLibrary;
 class Login extends BaseController
 {
     public function index(){
-        //die(password_hash('metallica69', PASSWORD_DEFAULT));
         helper(['form', 'uteis']);
         $data['reCaptchaKey'] = $this->session->get('reCaptchaKey');
-        echo view('login', $data);
+        return view('login', $data);
     }
 
     public function auth()

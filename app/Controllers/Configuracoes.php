@@ -14,6 +14,7 @@ class configuracoes extends BaseController
   public function __construct()
   {
     //parent::__construct();
+    check_menu_access(2);
     $this->ConfigModel = new configModel();
     $this->manualModel = new manualModel();
     $this->manual = $this->manualModel->where('id', 2)->first()->manual;
@@ -31,10 +32,7 @@ class configuracoes extends BaseController
     $data['cfgItens'] = $this->ConfigModel->orderBy('configName', 'asc')->findAll();
     $data['manual'] = $this->manual;
 
-    echo view('header');
-    echo view('menu');
-    echo view('configuracoes_lista', $data);
-    echo view('footer');
+    return view('configuracoes_lista', $data);
   }
 
   public function edit($id)
@@ -42,10 +40,7 @@ class configuracoes extends BaseController
     $data['cfgItem'] = $this->ConfigModel->where('id', $id)->first();
     $data['manual'] = $this->manual;
 
-    echo view('header');
-    echo view('menu');
-    echo view('configuracoes_edit', $data);
-    echo view('footer');
+    return view('configuracoes_edit', $data);
   }
 
   public function update()

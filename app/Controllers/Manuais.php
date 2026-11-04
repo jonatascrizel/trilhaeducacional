@@ -12,6 +12,7 @@ class manuais extends BaseController
   public function __construct()
   {
     //parent::__construct();
+    check_menu_access(4);
     $this->manualModel = new manualModel();
     $this->manual = $this->manualModel->where('id', 4)->first()->manual;
   }
@@ -28,10 +29,7 @@ class manuais extends BaseController
     $data['textos'] = $this->manualModel->orderBy('nome', 'asc')->findAll();
     $data['manual'] = $this->manual;
 
-    echo view('header');
-    echo view('menu');
-    echo view('manuais_lista', $data);
-    echo view('footer');
+    return view('manuais_lista', $data);
   }
 
   public function ver($id)
@@ -51,10 +49,7 @@ class manuais extends BaseController
     $data['txt'] = $this->manualModel->where('id', $id)->first();
     $data['manual'] = $this->manual;
 
-    echo view('header');
-    echo view('menu');
-    echo view('manuais_edit', $data);
-    echo view('footer');
+    return view('manuais_edit', $data);
   }
 
   public function update()

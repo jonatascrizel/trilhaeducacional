@@ -31,7 +31,7 @@ class perfil extends BaseController
       'telefone' => $this->request->getVar('telefone'),
     ];
     //echo '<pre>'; var_dump($data); die;
-    $save = $this->cursanteModel->update($this->request->getVar('id'), $data);
+    $save = $this->cursanteModel->update($this->session->get('cursante_id'), $data);
 
     return redirect()->to(base_url('perfil'));
   }
@@ -49,7 +49,7 @@ class perfil extends BaseController
       'troca_senha' => 0,
     ];
     //echo '<pre>'; var_dump($data); die;
-    $save = $this->cursanteModel->update($this->request->getVar('id'), $data);
+    $save = $this->cursanteModel->update($this->session->get('cursante_id'), $data);
 
     return redirect()->to(base_url('perfil/senha'));
   }
@@ -59,7 +59,8 @@ class perfil extends BaseController
 
       return view('perfil-preferencias', $data);
   }
-    public function updatepref(){
+
+  public function updatepref(){
     log_message('info', 'O cursante '.$this->session->get('cursante_nome').' editou suas preferência dos perfil');
     
     $data = [
@@ -68,7 +69,7 @@ class perfil extends BaseController
       'perfil_publico' => $this->request->getVar('perfil_publico'),
     ];
     //echo '<pre>'; var_dump($data); die;
-    $save = $this->cursanteModel->update($this->request->getVar('id'), $data);
+    $save = $this->cursanteModel->update($this->session->get('cursante_id'), $data);
 
     return redirect()->to(base_url('perfil/preferencias'));
   }
